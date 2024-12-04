@@ -1,0 +1,28 @@
+services:
+  flask:
+    container_name: collectionhub
+    image: collectionhub
+    build:
+      context: .
+    volumes:
+      - "./:/app"
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    environment:
+      FLASK_APP: src.app
+      FLASK_ENV: development
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: collectionhub-db
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
