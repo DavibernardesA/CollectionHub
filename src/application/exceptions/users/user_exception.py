@@ -1,5 +1,6 @@
 from application.exceptions.collectionhub_exception import CollectionHubException
 
+
 class UserException(CollectionHubException):
     error_type = "user"
     message = None

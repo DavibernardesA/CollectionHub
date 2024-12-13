@@ -1,14 +1,17 @@
-from pydantic import BaseModel, Field, field_validator, ValidationInfo
 from datetime import datetime, timezone
-import hashlib
-import bcrypt
+from bcrypt import checkpw
+
+from pydantic import BaseModel, Field, ValidationInfo, field_validator, constr
+
+from domain.core.models.value_objects.user_type import UserType
+
 
 class UserModel(BaseModel):
-    id: str | None = Field(None, max_length=255, description="User ID")
-    name: str = Field(..., max_length=100)
-    email: str = Field(..., max_length=255)
-    password: str
-    account_type: str
+    id: constr(max_length=255) = Field(None, max_length=255, description="User ID")
+    name: constr(max_length=255) = Field(..., max_length=100)
+    email: constr(max_length=255) = Field(..., max_length=255)
+    password: constr(max_length=255) = Field(..., max_length=255)
+    account_type: UserType
     created_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc),
         description="created_at",
@@ -37,14 +40,9 @@ class UserModel(BaseModel):
             data.pop("password", None)
         return data
 
-    def password_check(self, pwd_candidate: str) -> bool:
-        if not self.password:
-            return False
-        
-        hash = hashlib.sha1(pwd_candidate.encode("utf-8")).hexdigest().encode("utf-8")
-
-        pwd_hash = self.password.encode("utf-8")
-        return bcrypt.checkpw(hash, pwd_hash)
+    def password_check(self, dto_password: str, compared_password: str) -> bool:
+        right_password = checkpw(str.encode(dto_password), str.encode(compared_password))
+        return right_password
 
     class Meta:
         db_name = "users"

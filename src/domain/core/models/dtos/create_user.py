@@ -1,7 +1,7 @@
 from pydantic import Field
+
 from domain.core.models.user import UserModel
 
+
 class CreateUser(UserModel):
-    name: str = Field(..., max_length=100)
-    email: str = Field(..., max_length=255)
-    password: str
+    password_admin: str | None = Field(None, max_length=255, description="admin password")

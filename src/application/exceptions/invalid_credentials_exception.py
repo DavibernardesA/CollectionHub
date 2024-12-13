@@ -1,4 +1,4 @@
-from src.application.exceptions.collectionhub_exception import CollectionHubException
+from application.exceptions.collectionhub_exception import CollectionHubException
 
 
 class InvalidCredentials(CollectionHubException):

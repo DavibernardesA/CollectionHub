@@ -1,5 +1,6 @@
 from settings import LANGUAGE
 
+
 class CollectionHubException(Exception):
     def __init__(self, message, error_type):
         super().__init__()

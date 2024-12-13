@@ -4,9 +4,13 @@ from flask import Flask, jsonify
 from flask_restx import Api
 
 from adapters.resources.user import UserResource, user
+from adapters.middlewares import get_user_by_request
 
 app = Flask(__name__)
 
+@app.before_request
+def token_verify():
+    return get_user_by_request.exec()
 
 @app.route("/")
 def index():
