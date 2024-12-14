@@ -18,3 +18,13 @@ class UserRepositoryInterface(ABC):
     @abstractmethod
     def find_by_id(self, id: str) -> UserModel | None:
         pass
+
+    @abstractmethod
+    def find_all(
+        self,
+    ) -> list[UserModel]:
+        pass
+
+    @abstractmethod
+    def destroy_one(self, id: str) -> bool:
+        pass

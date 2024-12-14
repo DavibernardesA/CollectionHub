@@ -1,4 +1,5 @@
-from pydantic import Field, BaseModel
+from pydantic import BaseModel, Field
+
 
 class LoginUser(BaseModel):
     email: str = Field(..., max_length=255)

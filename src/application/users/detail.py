@@ -3,6 +3,7 @@ from domain.core.ports.repositories.user_repository_interface import (
     UserRepositoryInterface,
 )
 
+
 class Detail:
     def __init__(self, user_repository: UserRepositoryInterface) -> None:
         self.user_repository = user_repository

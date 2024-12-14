@@ -64,3 +64,26 @@ class UserRepository(UserRepositoryInterface):
             return UserModel(**user_dict)
 
         return None
+
+    def find_all(self) -> list[UserModel]:
+        cursor.execute(f"select * from {UserModel.Meta.db_name}")
+        user_data = cursor.fetchall()
+
+        if user_data:
+            users = [UserModel(**dict(zip(self.columns, row))) for row in user_data]
+            return users
+
+        return []
+
+    def destroy_one(self, id: str) -> bool:
+        user = self.find_by_id(id)
+        if not user:
+            return False
+        
+        cursor.execute(f"delete from {UserModel.Meta.db_name} where id = %s", (id,))
+        
+        if cursor.rowcount == 0:
+            return False
+        
+        conn.commit()
+        return True
