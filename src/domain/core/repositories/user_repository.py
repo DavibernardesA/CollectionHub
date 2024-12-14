@@ -87,3 +87,33 @@ class UserRepository(UserRepositoryInterface):
         
         conn.commit()
         return True
+    
+    def update(self, user: UserModel, id: str) -> UserModel | None:
+        user_to_insert = user.model_dump()
+        if "id" in user_to_insert:
+            del user_to_insert["id"]
+        if "password" in user_to_insert:
+                user_to_insert["password"] = hashpw(
+                    str.encode(user_to_insert["password"]), gensalt()
+                ).decode()    
+
+        cursor.execute(
+            f"update {UserModel.Meta.db_name} set name = %s, email = %s, password = %s, account_type = %s, updated_at = NOW() where id = %s returning *",
+            (
+            user_to_insert["name"],
+            user_to_insert["email"],
+            user_to_insert["password"],
+            user_to_insert["account_type"],
+            id,
+            )
+        )
+        updated_user_data = cursor.fetchone()
+        if not updated_user_data:
+            return None
+        
+        conn.commit()
+
+        updated_user_dict = dict(zip(self.columns, updated_user_data))
+        updated_user_dict["id"] = id
+
+        return UserModel(**updated_user_dict)

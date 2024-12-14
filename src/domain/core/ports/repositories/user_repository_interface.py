@@ -28,3 +28,7 @@ class UserRepositoryInterface(ABC):
     @abstractmethod
     def destroy_one(self, id: str) -> bool:
         pass
+
+    @abstractmethod
+    def update(self, body: UserModel, id: str) -> UserModel | None:
+        pass
