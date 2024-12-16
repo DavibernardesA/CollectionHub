@@ -4,8 +4,7 @@ from domain.core.models.user import UserModel
 from domain.core.ports.repositories.user_repository_interface import (
     UserRepositoryInterface,
 )
-from utils import conn, cursor
-
+from src.db import DATABASE, get_cursor
 
 class UserRepository(UserRepositoryInterface):
     def __init__(self):
@@ -25,6 +24,7 @@ class UserRepository(UserRepositoryInterface):
             del user_to_insert["id"]
 
         pass_hash = hashpw(str.encode(user_to_insert["password"]), gensalt())
+        cursor = get_cursor()
 
         result = cursor.execute(
             f"insert into {UserModel.Meta.db_name} (name, email, password, account_type, created_at, updated_at) "
@@ -38,12 +38,13 @@ class UserRepository(UserRepositoryInterface):
                 user_to_insert["updated_at"],
             ),
         )
-        conn.commit()
+        DATABASE.commit()
         inserted_user = result.fetchone()
         user_dict = dict(zip(self.columns, inserted_user))
         return UserModel(**user_dict)
 
     def find_by_email(self, email: str) -> UserModel | None:
+        cursor = get_cursor()
         cursor.execute(
             f"select * from {UserModel.Meta.db_name} where email = %s", (email,)
         )
@@ -56,6 +57,7 @@ class UserRepository(UserRepositoryInterface):
         return None
 
     def find_by_id(self, id: str) -> UserModel | None:
+        cursor = get_cursor()
         cursor.execute(f"select * from {UserModel.Meta.db_name} where id = %s", (id,))
         user_data = cursor.fetchone()
 
@@ -66,6 +68,7 @@ class UserRepository(UserRepositoryInterface):
         return None
 
     def find_all(self) -> list[UserModel]:
+        cursor = get_cursor()
         cursor.execute(f"select * from {UserModel.Meta.db_name}")
         user_data = cursor.fetchall()
 
@@ -76,6 +79,7 @@ class UserRepository(UserRepositoryInterface):
         return []
 
     def destroy_one(self, id: str) -> bool:
+        cursor = get_cursor()
         user = self.find_by_id(id)
         if not user:
             return False
@@ -85,10 +89,11 @@ class UserRepository(UserRepositoryInterface):
         if cursor.rowcount == 0:
             return False
         
-        conn.commit()
+        DATABASE.commit()
         return True
     
     def update(self, user: UserModel, id: str) -> UserModel | None:
+        cursor = get_cursor()
         user_to_insert = user.model_dump()
         if "id" in user_to_insert:
             del user_to_insert["id"]
@@ -111,7 +116,7 @@ class UserRepository(UserRepositoryInterface):
         if not updated_user_data:
             return None
         
-        conn.commit()
+        DATABASE.commit()
 
         updated_user_dict = dict(zip(self.columns, updated_user_data))
         updated_user_dict["id"] = id

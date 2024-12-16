@@ -2,7 +2,7 @@ from domain.core.ports.repositories.user_repository_interface import (
     UserRepositoryInterface,
 )
 from domain.core.models.dtos.create_user import UserModel 
-from flask import request
+from adapters.middlewares import get_user_by_request
 from domain.core.models.value_objects.user_type import UserType
 from application.exceptions.unauthorized_exception import Unauthorized
 from application.exceptions.users.user_already_exists_exception import UserAlreadyExists
@@ -15,23 +15,20 @@ class Update:
     def handler(self, user_id: str, body: dict) -> dict:
         dto = UserModel(**body)
 
-        own_account = request.user.id == user_id
-        is_admin = request.user.account_type == UserType.ADMIN
+        jwt_data = get_user_by_request.exec()
 
-        # Verifica se o usuário tem permissão para atualizar
-        if not own_account and not is_admin:
+        if not jwt_data.has_permission(user_id):
             raise Unauthorized()
 
         user = self.user_repository.find_by_id(user_id)
         if not user:
             raise UserMustExists()
-
-        # Apenas ADMIN pode promover usuários a ADMIN
-        if dto.account_type == UserType.ADMIN and not is_admin:
+        
+        if not jwt_data.can_promote_to_admin(dto.account_type):
             dto.account_type = UserType.USER
-
+            
         # Administradores nao podem se rabaixar
-        if user.account_type == UserType.ADMIN and dto.account_type == UserType.USER:
+        if user.is_admin and not dto.is_admin:
             raise Unauthorized()
 
         user_with_same_email = self.user_repository.find_by_email(dto.email)

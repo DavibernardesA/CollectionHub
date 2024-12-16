@@ -1,11 +1,28 @@
 services:
+  app:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=postgres
+      - DB_NAME=collectionhub
+    depends_on:
+      - postgres
+
   postgres:
     container_name: collectionhub-db
     image: postgres:16-alpine
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
+      POSTGRES_DB: collectionhub
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
+      - ./src/domain/database/dump.sql:/docker-entrypoint-initdb.d/dump.sql
     ports:
       - "5432:5432"

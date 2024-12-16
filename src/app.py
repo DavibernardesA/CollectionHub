@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, make_response
 from flask_restx import Api
 
 from adapters.middlewares import get_user_by_request
@@ -11,7 +11,17 @@ app = Flask(__name__)
 
 @app.before_request
 def token_verify():
-    return get_user_by_request.exec()
+        auth = get_user_by_request.exec()
+
+        if not auth:
+           return make_response(
+            {
+                "id": "expired_token",
+                "message": "Expired token",
+                "meta": {"errors": {"user": "Expired token"}},
+            },
+            401,
+        )
 
 
 @app.route("/")

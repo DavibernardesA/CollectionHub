@@ -2,6 +2,6 @@ from application.exceptions.collectionhub_exception import CollectionHubExceptio
 
 
 class Unauthorized(CollectionHubException):
-    def __init__(self, msg: tuple = ("Unauthorized", "Nao autorizado")):
-        message = msg
+    def __init__(self):
+        message = ("Unauthorized", "Nao autorizado")
         super().__init__(message, "unauthorized")
