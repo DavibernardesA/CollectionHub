@@ -1,13 +1,14 @@
 from datetime import datetime, timezone
 from pydantic import BaseModel, Field, ValidationInfo, constr, field_validator
 from domain.core.models.value_objects.collection_status import CollectionStatus
+from domain.core.models.value_objects.custom_attribute import CustomAttribute
 
 
 class CollectionModel(BaseModel):
     id: constr(max_length=255) = Field(None, max_length=255, description="Collection ID")
     name: constr(max_length=255) = Field(..., max_length=100)
     item_count: int = Field(0, description="Number of items in the collection")
-    custom_attributes: dict = Field({}, description="Custom attributes for the collection")
+    custom_attributes: list[CustomAttribute] = Field([], description="Custom attributes for the collection")
     likes: int = Field(0, description="Number of likes in the collection")
     favorites: int = Field(0, description="Number of favorites in the collection")
     followers: int = Field(0, description="Number of followers in the collection")
