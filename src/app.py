@@ -5,6 +5,7 @@ from flask_restx import Api
 
 from adapters.middlewares import get_user_by_request
 from adapters.resources.user import UserResource, user
+from adapters.resources.collection import CollectionResource, collection
 
 app = Flask(__name__)
 
@@ -52,6 +53,9 @@ api = Api(app)
 
 app.register_blueprint(user)
 api.add_resource(UserResource, "/users")
+
+app.register_blueprint(collection)
+api.add_resource(CollectionResource, "/collections")
 
 if __name__ == "__main__":
     app.run(

@@ -2,12 +2,13 @@ from domain.core.ports.repositories.user_repository_interface import (
     UserRepositoryInterface,
 )
 from application.utils.paginator import Paginator
+from domain.core.models.user import UserModel
 
 class Index:
     def __init__(self, user_repository: UserRepositoryInterface) -> None:
         self.user_repository = user_repository
 
-    def handler(self, query_params: dict) -> list:
+    def handler(self, query_params: dict) -> list[UserModel]:
 
         users = self.user_repository.find_all()
 

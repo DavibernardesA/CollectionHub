@@ -12,7 +12,7 @@ from application.users.index import Index
 from application.users.login import Login
 from application.users.delete import Destroy
 from application.users.update import Update
-from src.domain.core.repositories.user_repository import UserRepository
+from domain.core.repositories.user_repository import UserRepository
 
 user = Blueprint("users", __name__)
 

@@ -11,6 +11,7 @@ services:
       - DB_PASSWORD=postgres
       - DB_HOST=postgres
       - DB_NAME=collectionhub
+      - PYTHONPATH=/app/src
     depends_on:
       - postgres
 

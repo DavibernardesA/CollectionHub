@@ -3,12 +3,13 @@ format-all-files:
 
 up:
 	docker compose up
-	py src/app.py
+
+build:
+	docker compose up --build
 
 down:
 	docker compose down
 
 restart:
 	docker compose down
-	docker compose up -d
-	py src/app.py
+	docker compose up
