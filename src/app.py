@@ -4,18 +4,18 @@ from flask import Flask, jsonify, make_response
 from flask_restx import Api
 
 from adapters.middlewares import get_user_by_request
-from adapters.resources.user import UserResource, user
 from adapters.resources.collection import CollectionResource, collection
+from adapters.resources.user import UserResource, user
 
 app = Flask(__name__)
 
 
 @app.before_request
 def token_verify():
-        auth = get_user_by_request.exec()
+    auth = get_user_by_request.exec()
 
-        if not auth:
-           return make_response(
+    if not auth:
+        return make_response(
             {
                 "id": "expired_token",
                 "message": "Expired token",

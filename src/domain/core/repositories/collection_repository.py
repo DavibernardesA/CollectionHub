@@ -1,10 +1,9 @@
-import json
-
-from domain.core.ports.repositories.collection_repository_interface import (
-    CollectionRepositoryInterface
-) 
-from src.db import DATABASE, get_cursor
 from domain.core.models.collection import CollectionModel
+from domain.core.ports.repositories.collection_repository_interface import (
+    CollectionRepositoryInterface,
+)
+from src.db import DATABASE, get_cursor
+
 
 class CollectionRepository(CollectionRepositoryInterface):
     def __init__(self):
@@ -21,7 +20,7 @@ class CollectionRepository(CollectionRepositoryInterface):
             "created_at",
             "updated_at",
             "deleted_at",
-            "errors"
+            "errors",
         ]
 
     def find_all(self) -> list[CollectionModel]:
@@ -29,15 +28,20 @@ class CollectionRepository(CollectionRepositoryInterface):
         cursor.execute(f"select * from {CollectionModel.Meta.db_name}")
         collection_data = cursor.fetchall()
         if collection_data:
-            collections = [CollectionModel(**dict(zip(self.columns, collection))) for collection in collection_data]
+            collections = [
+                CollectionModel(**dict(zip(self.columns, collection)))
+                for collection in collection_data
+            ]
             return collections
         return []
-    
+
     def find_by_id(self, id: str) -> CollectionModel | None:
         cursor = get_cursor()
-        cursor.execute(f"select * from {CollectionModel.Meta.db_name} where id = %s", (id,))
+        cursor.execute(
+            f"select * from {CollectionModel.Meta.db_name} where id = %s", (id,)
+        )
         collection_data = cursor.fetchone()
-        
+
         if collection_data:
             collection_dict = dict(zip(self.columns, collection_data))
             return CollectionModel(**collection_dict)
@@ -45,24 +49,26 @@ class CollectionRepository(CollectionRepositoryInterface):
 
     def find_by_name(self, name) -> CollectionModel | None:
         cursor = get_cursor()
-        cursor.execute(f"select * from {CollectionModel.Meta.db_name} where name = %s", (name,))
+        cursor.execute(
+            f"select * from {CollectionModel.Meta.db_name} where name = %s", (name,)
+        )
         collection_data = cursor.fetchone()
 
         if collection_data:
             collection_dict = dict(zip(self.columns, collection_data))
             return CollectionModel(**collection_dict)
         return None
-        
+
     def insert_one(self, body: CollectionModel) -> CollectionModel:
         collection_to_insert = body.model_dump()
         if "id" in collection_to_insert:
             del collection_to_insert["id"]
-        
+
         cursor = get_cursor()
 
         cursor.execute(
             f"""
-            INSERT INTO {CollectionModel.Meta.db_name} 
+            INSERT INTO {CollectionModel.Meta.db_name}
             (name, item_count, likes, favorites, followers, status, created_by, created_at, updated_at, deleted_at)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             RETURNING *
@@ -77,8 +83,8 @@ class CollectionRepository(CollectionRepositoryInterface):
                 collection_to_insert["created_by"],
                 collection_to_insert["created_at"],
                 collection_to_insert["updated_at"],
-                collection_to_insert["deleted_at"]
-            )
+                collection_to_insert["deleted_at"],
+            ),
         )
         DATABASE.commit()
 

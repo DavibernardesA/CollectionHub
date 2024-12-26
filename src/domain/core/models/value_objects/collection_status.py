@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class CollectionStatus(str, Enum):
     DRAFT = "draft"
     INCOMPLETE = "incomplete"

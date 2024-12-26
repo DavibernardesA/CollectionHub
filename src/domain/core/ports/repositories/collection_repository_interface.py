@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 from domain.core.models.collection import CollectionModel
 
+
 class CollectionRepositoryInterface(ABC):
     def __init__(self) -> None:
         super().__init__()

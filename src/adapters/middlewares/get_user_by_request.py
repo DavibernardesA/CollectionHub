@@ -1,10 +1,12 @@
 import os
 
 from flask import request
-from jwt import ExpiredSignatureError, decode, DecodeError, InvalidTokenError
+from jwt import DecodeError, ExpiredSignatureError, InvalidTokenError, decode
+
+from domain.core.models.user import UserModel
 from domain.core.repositories.user_repository import UserRepository
 from src.settings import PUBLIC_ROUTES
-from domain.core.models.user import UserModel
+
 
 def exec() -> UserModel | bool:
     if request.path in PUBLIC_ROUTES:
@@ -29,5 +31,5 @@ def exec() -> UserModel | bool:
         return False
     except (DecodeError, InvalidTokenError):
         return False
-    except Exception as e:
+    except Exception:
         return False

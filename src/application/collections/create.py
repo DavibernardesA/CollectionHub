@@ -1,16 +1,24 @@
-from domain.core.ports.repositories.collection_repository_interface import CollectionRepositoryInterface
-from domain.core.ports.repositories.user_repository_interface import UserRepositoryInterface
-
-from application.exceptions.collections.collection_already_exists_exception import CollectionAlreadyExists
-
-from domain.core.models.dtos.create_collection import CreateCollection
 from adapters.middlewares import get_user_by_request
+from application.exceptions.collections.collection_already_exists_exception import (
+    CollectionAlreadyExists,
+)
 from application.exceptions.unauthorized_exception import Unauthorized
+from domain.core.models.dtos.create_collection import CreateCollection
 from domain.core.models.value_objects.collection_status import CollectionStatus
+from domain.core.ports.repositories.collection_repository_interface import (
+    CollectionRepositoryInterface,
+)
+from domain.core.ports.repositories.user_repository_interface import (
+    UserRepositoryInterface,
+)
 
 
 class Create:
-    def __init__(self, collection_repository: CollectionRepositoryInterface, user_repository: UserRepositoryInterface) -> None:
+    def __init__(
+        self,
+        collection_repository: CollectionRepositoryInterface,
+        user_repository: UserRepositoryInterface,
+    ) -> None:
         self.collection_repository = collection_repository
         self.user_repository = user_repository
 

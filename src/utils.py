@@ -1,8 +1,8 @@
 import os
+import time
 
 import psycopg
 from dotenv import load_dotenv
-import time
 from psycopg import OperationalError
 
 APP_ROOT = os.path.join(os.path.dirname(__file__), "..")

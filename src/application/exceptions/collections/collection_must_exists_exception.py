@@ -1,4 +1,7 @@
-from application.exceptions.collections.collections_exception import CollectionsException
+from application.exceptions.collections.collections_exception import (
+    CollectionsException,
+)
+
 
 class CollectionMustExists(CollectionsException):
     def __init__(self):

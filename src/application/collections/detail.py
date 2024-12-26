@@ -1,5 +1,6 @@
-from application.exceptions.collections.collection_must_exists_exception import CollectionMustExists
-
+from application.exceptions.collections.collection_must_exists_exception import (
+    CollectionMustExists,
+)
 from domain.core.ports.repositories.collection_repository_interface import (
     CollectionRepositoryInterface,
 )

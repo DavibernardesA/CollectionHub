@@ -7,10 +7,10 @@ from pydantic_core import ValidationError
 from adapters.resources.utils import get_query_params, pydantic_errors_to_request_error
 from application.exceptions.collectionhub_exception import CollectionHubException
 from application.users.create import Create
+from application.users.delete import Destroy
 from application.users.detail import Detail
 from application.users.index import Index
 from application.users.login import Login
-from application.users.delete import Destroy
 from application.users.update import Update
 from domain.core.repositories.user_repository import UserRepository
 
@@ -93,14 +93,13 @@ class UserResource(Resource):
                 error.to_dict(),
                 HTTPStatus.UNPROCESSABLE_ENTITY,
             )
-        
+
     @classmethod
     @user.put("/users/<string:user_id>")
     def update(user_id):
         try:
             user_update = Update(user_repository=UserRepository()).handler(
-                user_id=user_id,
-                body=request.get_json()
+                user_id=user_id, body=request.get_json()
             )
             return (user_update, HTTPStatus.OK)
         except ValidationError as error:

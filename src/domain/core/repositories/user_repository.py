@@ -6,6 +6,7 @@ from domain.core.ports.repositories.user_repository_interface import (
 )
 from src.db import DATABASE, get_cursor
 
+
 class UserRepository(UserRepositoryInterface):
     def __init__(self):
         self.columns = [
@@ -83,39 +84,39 @@ class UserRepository(UserRepositoryInterface):
         user = self.find_by_id(id)
         if not user:
             return False
-        
+
         cursor.execute(f"delete from {UserModel.Meta.db_name} where id = %s", (id,))
-        
+
         if cursor.rowcount == 0:
             return False
-        
+
         DATABASE.commit()
         return True
-    
+
     def update(self, user: UserModel, id: str) -> UserModel | None:
         cursor = get_cursor()
         user_to_insert = user.model_dump()
         if "id" in user_to_insert:
             del user_to_insert["id"]
         if "password" in user_to_insert:
-                user_to_insert["password"] = hashpw(
-                    str.encode(user_to_insert["password"]), gensalt()
-                ).decode()    
+            user_to_insert["password"] = hashpw(
+                str.encode(user_to_insert["password"]), gensalt()
+            ).decode()
 
         cursor.execute(
             f"update {UserModel.Meta.db_name} set name = %s, email = %s, password = %s, account_type = %s, updated_at = NOW() where id = %s returning *",
             (
-            user_to_insert["name"],
-            user_to_insert["email"],
-            user_to_insert["password"],
-            user_to_insert["account_type"],
-            id,
-            )
+                user_to_insert["name"],
+                user_to_insert["email"],
+                user_to_insert["password"],
+                user_to_insert["account_type"],
+                id,
+            ),
         )
         updated_user_data = cursor.fetchone()
         if not updated_user_data:
             return None
-        
+
         DATABASE.commit()
 
         updated_user_dict = dict(zip(self.columns, updated_user_data))

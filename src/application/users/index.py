@@ -1,8 +1,9 @@
+from application.utils.paginator import Paginator
+from domain.core.models.user import UserModel
 from domain.core.ports.repositories.user_repository_interface import (
     UserRepositoryInterface,
 )
-from application.utils.paginator import Paginator
-from domain.core.models.user import UserModel
+
 
 class Index:
     def __init__(self, user_repository: UserRepositoryInterface) -> None:
@@ -16,7 +17,5 @@ class Index:
         page = int(query_params.get("page", [1])[0])
 
         return Paginator(
-            [user.model_dump(exclude_password=True) for user in users],
-            limit,
-            page
+            [user.model_dump(exclude_password=True) for user in users], limit, page
         ).result

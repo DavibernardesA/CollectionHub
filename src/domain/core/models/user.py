@@ -43,7 +43,7 @@ class UserModel(BaseModel):
     def password_check(self, dto_password: str, compared_password: str) -> bool:
         right_password = checkpw(str.encode(dto_password), str.encode(compared_password))
         return right_password
-    
+
     def is_admin(self) -> bool:
         return self.account_type == UserType.ADMIN
 
@@ -52,7 +52,7 @@ class UserModel(BaseModel):
 
     def has_permission(self, user_id: str) -> bool:
         return self.is_admin() or self.own_account(user_id)
-    
+
     def can_promote_to_admin(self, dto_type: UserType) -> bool:
         return self.is_admin() and dto_type == UserType.ADMIN
 
