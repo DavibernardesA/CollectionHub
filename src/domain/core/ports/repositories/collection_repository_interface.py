@@ -24,3 +24,7 @@ class CollectionRepositoryInterface(ABC):
     @abstractmethod
     def insert_one(self, body: CollectionModel) -> CollectionModel | None:
         pass
+
+    @abstractmethod
+    def update_custom_attributes(self, id: str, body: dict) -> CollectionModel | None:
+        pass

@@ -1,8 +1,11 @@
+import json
+
+from src.db import DATABASE, get_cursor
 from src.domain.core.models.collection import CollectionModel
+from src.domain.core.models.value_objects.collection_status import CollectionStatus
 from src.domain.core.ports.repositories.collection_repository_interface import (
     CollectionRepositoryInterface,
 )
-from src.db import DATABASE, get_cursor
 
 
 class CollectionRepository(CollectionRepositoryInterface):
@@ -91,3 +94,31 @@ class CollectionRepository(CollectionRepositoryInterface):
         inserted_collection = cursor.fetchone()
         user_dict = dict(zip(self.columns, inserted_collection))
         return CollectionModel(**user_dict)
+
+    def update_custom_attributes(
+        self, id: str, attributes: list, status: CollectionStatus
+    ) -> CollectionModel | None:
+        cursor = get_cursor()
+
+        json_attributes = json.dumps(attributes)
+
+        cursor.execute(
+            f"""
+            UPDATE {CollectionModel.Meta.db_name}
+            SET custom_attributes = custom_attributes || %s::jsonb,
+                status = %s,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE id = %s
+            RETURNING *
+            """,
+            (json_attributes, status.value, id),
+        )
+
+        updated_collection_data = cursor.fetchone()
+        if not updated_collection_data:
+            return None
+
+        DATABASE.commit()
+
+        updated_collection_dict = dict(zip(self.columns, updated_collection_data))
+        return CollectionModel(**updated_collection_dict)

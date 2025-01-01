@@ -52,5 +52,12 @@ class CollectionModel(BaseModel):
             data.pop("password", None)
         return data
 
+    @property
+    def can_add_attributes(self) -> bool:
+        return (
+            self.status == CollectionStatus.DRAFT
+            or self.status == CollectionStatus.INCOMPLETE
+        )
+
     class Meta:
         db_name = "collections"

@@ -4,7 +4,10 @@ from flask import Blueprint, request
 from flask_restx import Resource
 from pydantic_core import ValidationError
 
-from src.adapters.resources.utils import get_query_params, pydantic_errors_to_request_error
+from src.adapters.resources.utils import (
+    get_query_params,
+    pydantic_errors_to_request_error,
+)
 from src.application.exceptions.collectionhub_exception import CollectionHubException
 from src.application.users.create import Create
 from src.application.users.delete import Destroy
