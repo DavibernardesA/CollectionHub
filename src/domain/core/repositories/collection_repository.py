@@ -28,7 +28,9 @@ class CollectionRepository(CollectionRepositoryInterface):
 
     def find_all(self) -> list[CollectionModel]:
         cursor = get_cursor()
-        cursor.execute(f"select * from {CollectionModel.Meta.db_name}")
+        cursor.execute(
+            f"select * from {CollectionModel.Meta.db_name} where status != {CollectionStatus.DELETED}"
+        )
         collection_data = cursor.fetchall()
         if collection_data:
             collections = [
@@ -122,3 +124,15 @@ class CollectionRepository(CollectionRepositoryInterface):
 
         updated_collection_dict = dict(zip(self.columns, updated_collection_data))
         return CollectionModel(**updated_collection_dict)
+
+    def delete(self, status: CollectionStatus, collection_id: str) -> None:
+        cursor = get_cursor()
+        cursor.execute(
+            f"UPDATE {CollectionModel.Meta.db_name} SET status = %s, updated_at = CURRENT_TIMESTAMP WHERE id = %s",
+            (
+                status,
+                collection_id,
+            ),
+        )
+        DATABASE.commit()
+        return

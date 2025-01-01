@@ -1,4 +1,4 @@
-format-all-files:
+format:
 	pre-commit run --all-files
 
 up:

@@ -59,5 +59,13 @@ class CollectionModel(BaseModel):
             or self.status == CollectionStatus.INCOMPLETE
         )
 
+    @property
+    def can_delete(self) -> bool:
+        return self.status in (
+            CollectionStatus.ACTIVE,
+            CollectionStatus.INCOMPLETE,
+            CollectionStatus.DRAFT,
+        )
+
     class Meta:
         db_name = "collections"

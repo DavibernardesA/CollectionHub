@@ -28,3 +28,9 @@ CREATE TABLE collections (
     deleted_at        TIMESTAMP,                                       -- Data de deleção (se aplicável)
     errors            JSONB NOT NULL DEFAULT '[]'::JSONB               -- Erros registrados (se houver)
 );
+
+-- Criar tabela `locks`
+CREATE TABLE locks (
+    id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),      -- ID único para identificar cada bloqueio
+    collection_id     UUID NOT NULL                                    -- ID da coleção bloqueada
+);

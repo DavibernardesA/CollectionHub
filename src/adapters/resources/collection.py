@@ -10,10 +10,12 @@ from src.adapters.resources.utils import (
 )
 from src.application.collections.create import Create
 from src.application.collections.custom_attributes import CustomAtributes
+from src.application.collections.delete import Delete
 from src.application.collections.detail import Detail
 from src.application.collections.index import Index
 from src.application.exceptions.collectionhub_exception import CollectionHubException
 from src.domain.core.repositories.collection_repository import CollectionRepository
+from src.domain.core.repositories.lock_repository import LockRepository
 from src.domain.core.repositories.user_repository import UserRepository
 
 collection = Blueprint("collection", __name__)
@@ -86,6 +88,26 @@ class CollectionResource(Resource):
                 collection_repository=CollectionRepository()
             ).handler(collection_id=collection_id, body=request.json)
             return (collection_custom_attributes, HTTPStatus.OK)
+        except ValidationError as error:
+            return (
+                pydantic_errors_to_request_error(error.errors()),
+                HTTPStatus.UNPROCESSABLE_ENTITY,
+            )
+        except CollectionHubException as error:
+            return (
+                error.to_dict(),
+                HTTPStatus.UNPROCESSABLE_ENTITY,
+            )
+
+    @classmethod
+    @collection.put("/collections/<string:collection_id>/delete")
+    def delete(collection_id):
+        try:
+            collection_delete = Delete(
+                collection_repository=CollectionRepository(),
+                lock_repository=LockRepository(),
+            ).handler(collection_id=collection_id, body={})
+            return (collection_delete, HTTPStatus.OK)
         except ValidationError as error:
             return (
                 pydantic_errors_to_request_error(error.errors()),

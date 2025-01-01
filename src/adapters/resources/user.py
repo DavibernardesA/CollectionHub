@@ -10,7 +10,7 @@ from src.adapters.resources.utils import (
 )
 from src.application.exceptions.collectionhub_exception import CollectionHubException
 from src.application.users.create import Create
-from src.application.users.delete import Destroy
+from src.application.users.delete import Delete
 from src.application.users.detail import Detail
 from src.application.users.index import Index
 from src.application.users.login import Login
@@ -120,7 +120,7 @@ class UserResource(Resource):
     @user.delete("/users/<string:user_id>")
     def delete(user_id):
         try:
-            user_delete = Destroy(user_repository=UserRepository()).handler(
+            user_delete = Delete(user_repository=UserRepository()).handler(
                 user_id=user_id
             )
             return (user_delete, HTTPStatus.NO_CONTENT)

@@ -6,7 +6,7 @@ from src.domain.core.ports.repositories.user_repository_interface import (
 )
 
 
-class Destroy:
+class Delete:
     def __init__(self, user_repository: UserRepositoryInterface) -> None:
         self.user_repository = user_repository
 

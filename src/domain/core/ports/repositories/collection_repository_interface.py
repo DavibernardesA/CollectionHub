@@ -28,3 +28,7 @@ class CollectionRepositoryInterface(ABC):
     @abstractmethod
     def update_custom_attributes(self, id: str, body: dict) -> CollectionModel | None:
         pass
+
+    @abstractmethod
+    def delete(self, collection_id: str) -> None:
+        pass
