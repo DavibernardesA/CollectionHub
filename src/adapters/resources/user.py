@@ -4,15 +4,15 @@ from flask import Blueprint, request
 from flask_restx import Resource
 from pydantic_core import ValidationError
 
-from adapters.resources.utils import get_query_params, pydantic_errors_to_request_error
-from application.exceptions.collectionhub_exception import CollectionHubException
-from application.users.create import Create
-from application.users.delete import Destroy
-from application.users.detail import Detail
-from application.users.index import Index
-from application.users.login import Login
-from application.users.update import Update
-from domain.core.repositories.user_repository import UserRepository
+from src.adapters.resources.utils import get_query_params, pydantic_errors_to_request_error
+from src.application.exceptions.collectionhub_exception import CollectionHubException
+from src.application.users.create import Create
+from src.application.users.delete import Destroy
+from src.application.users.detail import Detail
+from src.application.users.index import Index
+from src.application.users.login import Login
+from src.application.users.update import Update
+from src.domain.core.repositories.user_repository import UserRepository
 
 user = Blueprint("users", __name__)
 

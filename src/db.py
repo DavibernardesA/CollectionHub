@@ -1,4 +1,4 @@
-from utils import get_database
+from src.utils import get_database
 
 DATABASE = get_database()
 

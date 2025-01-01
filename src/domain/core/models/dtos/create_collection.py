@@ -1,4 +1,4 @@
-from domain.core.models.collection import CollectionModel
+from src.domain.core.models.collection import CollectionModel
 
 
 class CreateCollection(CollectionModel):

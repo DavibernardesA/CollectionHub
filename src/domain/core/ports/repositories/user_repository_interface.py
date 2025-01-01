@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from domain.core.models.user import UserModel
+from src.domain.core.models.user import UserModel
 
 
 class UserRepositoryInterface(ABC):

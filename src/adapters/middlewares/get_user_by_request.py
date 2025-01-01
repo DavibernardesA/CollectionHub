@@ -3,8 +3,8 @@ import os
 from flask import request
 from jwt import DecodeError, ExpiredSignatureError, InvalidTokenError, decode
 
-from domain.core.models.user import UserModel
-from domain.core.repositories.user_repository import UserRepository
+from src.domain.core.models.user import UserModel
+from src.domain.core.repositories.user_repository import UserRepository
 from src.settings import PUBLIC_ROUTES
 
 

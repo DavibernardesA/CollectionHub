@@ -3,9 +3,9 @@ import os
 from flask import Flask, jsonify, make_response
 from flask_restx import Api
 
-from adapters.middlewares import get_user_by_request
-from adapters.resources.collection import CollectionResource, collection
-from adapters.resources.user import UserResource, user
+from src.adapters.middlewares import get_user_by_request
+from src.adapters.resources.collection import CollectionResource, collection
+from src.adapters.resources.user import UserResource, user
 
 app = Flask(__name__)
 

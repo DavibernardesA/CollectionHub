@@ -3,9 +3,9 @@ from datetime import datetime, timedelta, timezone
 
 from jwt import encode
 
-from application.exceptions.invalid_credentials_exception import InvalidCredentials
-from domain.core.models.dtos.login_user import LoginUser
-from domain.core.ports.repositories.user_repository_interface import (
+from src.application.exceptions.invalid_credentials_exception import InvalidCredentials
+from src.domain.core.models.dtos.login_user import LoginUser
+from src.domain.core.ports.repositories.user_repository_interface import (
     UserRepositoryInterface,
 )
 

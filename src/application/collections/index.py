@@ -1,12 +1,12 @@
-from application.utils.paginator import Paginator
-from domain.core.models.collection import CollectionModel
-from domain.core.ports.repositories.collection_repository_interface import (
+from src.application.utils.paginator import Paginator
+from src.domain.core.models.collection import CollectionModel
+from src.domain.core.ports.repositories.collection_repository_interface import (
     CollectionRepositoryInterface,
 )
 
 
 class Index:
-    def __init__(self, collection_repository=CollectionRepositoryInterface) -> None:
+    def __init__(self, collection_repository: CollectionRepositoryInterface) -> None:
         self.collection_repository = collection_repository
 
     def handler(self, query_params: dict) -> list[CollectionModel]:

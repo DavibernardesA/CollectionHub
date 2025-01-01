@@ -4,10 +4,10 @@ from flask import Blueprint, request
 from flask_restx import Resource
 from pydantic_core import ValidationError
 
-from adapters.resources.utils import get_query_params, pydantic_errors_to_request_error
-from application.exceptions.collectionhub_exception import CollectionHubException
-from domain.core.repositories.collection_repository import CollectionRepository
-from domain.core.repositories.user_repository import UserRepository
+from src.adapters.resources.utils import get_query_params, pydantic_errors_to_request_error
+from src.application.exceptions.collectionhub_exception import CollectionHubException
+from src.domain.core.repositories.collection_repository import CollectionRepository
+from src.domain.core.repositories.user_repository import UserRepository
 from src.application.collections.create import Create
 from src.application.collections.detail import Detail
 from src.application.collections.index import Index

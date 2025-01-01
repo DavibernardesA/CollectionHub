@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from domain.core.models.collection import CollectionModel
+from src.domain.core.models.collection import CollectionModel
 
 
 class CollectionRepositoryInterface(ABC):

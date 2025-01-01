@@ -1,5 +1,5 @@
-from domain.core.models.collection import CollectionModel
-from domain.core.ports.repositories.collection_repository_interface import (
+from src.domain.core.models.collection import CollectionModel
+from src.domain.core.ports.repositories.collection_repository_interface import (
     CollectionRepositoryInterface,
 )
 from src.db import DATABASE, get_cursor

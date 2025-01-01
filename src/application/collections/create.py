@@ -1,14 +1,14 @@
-from adapters.middlewares import get_user_by_request
-from application.exceptions.collections.collection_already_exists_exception import (
+from src.adapters.middlewares import get_user_by_request
+from src.application.exceptions.collections.collection_already_exists_exception import (
     CollectionAlreadyExists,
 )
-from application.exceptions.unauthorized_exception import Unauthorized
-from domain.core.models.dtos.create_collection import CreateCollection
-from domain.core.models.value_objects.collection_status import CollectionStatus
-from domain.core.ports.repositories.collection_repository_interface import (
+from src.application.exceptions.unauthorized_exception import Unauthorized
+from src.domain.core.models.dtos.create_collection import CreateCollection
+from src.domain.core.models.value_objects.collection_status import CollectionStatus
+from src.domain.core.ports.repositories.collection_repository_interface import (
     CollectionRepositoryInterface,
 )
-from domain.core.ports.repositories.user_repository_interface import (
+from src.domain.core.ports.repositories.user_repository_interface import (
     UserRepositoryInterface,
 )
 

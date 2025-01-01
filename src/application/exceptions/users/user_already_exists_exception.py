@@ -1,4 +1,4 @@
-from application.exceptions.users.user_exception import UserException
+from src.application.exceptions.users.user_exception import UserException
 
 
 class UserAlreadyExists(UserException):

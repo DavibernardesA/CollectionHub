@@ -2,8 +2,8 @@ from datetime import datetime, timezone
 
 from pydantic import BaseModel, Field, ValidationInfo, constr, field_validator
 
-from domain.core.models.value_objects.collection_status import CollectionStatus
-from domain.core.models.value_objects.custom_attribute import CustomAttribute
+from src.domain.core.models.value_objects.collection_status import CollectionStatus
+from src.domain.core.models.value_objects.custom_attribute import CustomAttribute
 
 
 class CollectionModel(BaseModel):

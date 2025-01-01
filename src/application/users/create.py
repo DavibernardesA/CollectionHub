@@ -1,10 +1,10 @@
 import os
 
-from application.exceptions.invalid_credentials_exception import InvalidCredentials
-from application.exceptions.users.user_already_exists_exception import UserAlreadyExists
-from domain.core.models.dtos.create_user import CreateUser
-from domain.core.models.value_objects.user_type import UserType
-from domain.core.ports.repositories.user_repository_interface import (
+from src.application.exceptions.invalid_credentials_exception import InvalidCredentials
+from src.application.exceptions.users.user_already_exists_exception import UserAlreadyExists
+from src.domain.core.models.dtos.create_user import CreateUser
+from src.domain.core.models.value_objects.user_type import UserType
+from src.domain.core.ports.repositories.user_repository_interface import (
     UserRepositoryInterface,
 )
 

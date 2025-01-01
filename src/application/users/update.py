@@ -1,10 +1,10 @@
-from adapters.middlewares import get_user_by_request
-from application.exceptions.unauthorized_exception import Unauthorized
-from application.exceptions.users.user_already_exists_exception import UserAlreadyExists
-from application.exceptions.users.user_must_exists_exception import UserMustExists
-from domain.core.models.dtos.create_user import UserModel
-from domain.core.models.value_objects.user_type import UserType
-from domain.core.ports.repositories.user_repository_interface import (
+from src.adapters.middlewares import get_user_by_request
+from src.application.exceptions.unauthorized_exception import Unauthorized
+from src.application.exceptions.users.user_already_exists_exception import UserAlreadyExists
+from src.application.exceptions.users.user_must_exists_exception import UserMustExists
+from src.domain.core.models.dtos.create_user import UserModel
+from src.domain.core.models.value_objects.user_type import UserType
+from src.domain.core.ports.repositories.user_repository_interface import (
     UserRepositoryInterface,
 )
 

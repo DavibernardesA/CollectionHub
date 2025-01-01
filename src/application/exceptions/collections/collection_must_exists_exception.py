@@ -1,4 +1,4 @@
-from application.exceptions.collections.collections_exception import (
+from src.application.exceptions.collections.collections_exception import (
     CollectionsException,
 )
 

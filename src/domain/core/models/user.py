@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from bcrypt import checkpw
 from pydantic import BaseModel, Field, ValidationInfo, constr, field_validator
 
-from domain.core.models.value_objects.user_type import UserType
+from src.domain.core.models.value_objects.user_type import UserType
 
 
 class UserModel(BaseModel):

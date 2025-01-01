@@ -1,6 +1,6 @@
 from pydantic import Field
 
-from domain.core.models.user import UserModel
+from src.domain.core.models.user import UserModel
 
 
 class CreateUser(UserModel):

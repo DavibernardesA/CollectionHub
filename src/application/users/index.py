@@ -1,6 +1,6 @@
-from application.utils.paginator import Paginator
-from domain.core.models.user import UserModel
-from domain.core.ports.repositories.user_repository_interface import (
+from src.application.utils.paginator import Paginator
+from src.domain.core.models.user import UserModel
+from src.domain.core.ports.repositories.user_repository_interface import (
     UserRepositoryInterface,
 )
 

@@ -1,5 +1,5 @@
-from application.exceptions.users.user_must_exists_exception import UserMustExists
-from domain.core.ports.repositories.user_repository_interface import (
+from src.application.exceptions.users.user_must_exists_exception import UserMustExists
+from src.domain.core.ports.repositories.user_repository_interface import (
     UserRepositoryInterface,
 )
 

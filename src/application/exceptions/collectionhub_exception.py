@@ -1,4 +1,4 @@
-from settings import LANGUAGE
+from src.settings import LANGUAGE
 
 
 class CollectionHubException(Exception):
