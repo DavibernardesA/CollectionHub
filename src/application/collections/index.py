@@ -3,6 +3,7 @@ from src.domain.core.models.collection import CollectionModel
 from src.domain.core.ports.repositories.collection_repository_interface import (
     CollectionRepositoryInterface,
 )
+from src.domain.core.models.value_objects.collection_status import CollectionStatus
 
 
 class Index:
@@ -11,7 +12,9 @@ class Index:
 
     def handler(self, query_params: dict) -> list[CollectionModel]:
 
-        collections = self.collection_repository.find_all()
+        status = query_params.get("status", CollectionStatus.DELETED)[0]
+
+        collections = self.collection_repository.find_all(status)
 
         limit = int(query_params.get("limit", [20])[0])
         page = int(query_params.get("page", [1])[0])

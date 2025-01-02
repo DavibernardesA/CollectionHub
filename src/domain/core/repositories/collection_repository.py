@@ -26,19 +26,26 @@ class CollectionRepository(CollectionRepositoryInterface):
             "errors",
         ]
 
-    def find_all(self) -> list[CollectionModel]:
+    def find_all(self, status: CollectionStatus = None) -> list[CollectionModel]:
         cursor = get_cursor()
-        cursor.execute(
-            f"select * from {CollectionModel.Meta.db_name} where status != {CollectionStatus.DELETED}"
-        )
+
+        # Definir a condição do status
+        status_condition = CollectionStatus.DELETED if status is None else status
+
+        # Montar a query
+        query = f'select * from {CollectionModel.Meta.db_name} where status {"=" if status_condition else "!="} %s'
+
+        cursor.execute(query, (status_condition,))
+
         collection_data = cursor.fetchall()
         if collection_data:
-            collections = [
+            return [
                 CollectionModel(**dict(zip(self.columns, collection)))
                 for collection in collection_data
             ]
-            return collections
         return []
+
+
 
     def find_by_id(self, id: str) -> CollectionModel | None:
         cursor = get_cursor()
