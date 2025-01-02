@@ -38,7 +38,9 @@ class Delete:
         # esse lock serve para garantir que não sera possivel deletar uma collection enquanto adiciona um item
         self.lock_repository.lock(collection.id)
 
-        self.collection_repository.delete(CollectionStatus.DELETED, collection_id)
+        self.collection_repository.delete(
+            status=CollectionStatus.DELETED, collection_id=collection_id
+        )
 
         if self.lock_repository.find_by_collection_id(collection.id):
             self.lock_repository.unlock(collection.id)

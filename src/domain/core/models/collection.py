@@ -67,5 +67,9 @@ class CollectionModel(BaseModel):
             CollectionStatus.DRAFT,
         )
 
+    @property
+    def can_delete_permanently(self) -> bool:
+        return self.status == CollectionStatus.DELETED
+
     class Meta:
         db_name = "collections"

@@ -25,17 +25,22 @@ class CollectionRepository(CollectionRepositoryInterface):
             "deleted_at",
             "errors",
         ]
-
+    
     def find_all(self, status: CollectionStatus = None) -> list[CollectionModel]:
         cursor = get_cursor()
 
-        # Definir a condição do status
-        status_condition = CollectionStatus.DELETED if status is None else status
+        query = f"select * from {CollectionModel.Meta.db_name}"
 
-        # Montar a query
-        query = f'select * from {CollectionModel.Meta.db_name} where status {"=" if status_condition else "!="} %s'
-
-        cursor.execute(query, (status_condition,))
+        if status and status == CollectionStatus.DELETED:
+            query += " where status = %s"
+            cursor.execute(query, (status,))
+        elif status and status != CollectionStatus.DELETED:
+            query += " where status = %s"
+            cursor.execute(query, (status,))
+        
+        if not status:
+            query += " where status != %s"
+            cursor.execute(query, (CollectionStatus.DELETED,))
 
         collection_data = cursor.fetchall()
         if collection_data:
@@ -130,14 +135,22 @@ class CollectionRepository(CollectionRepositoryInterface):
         updated_collection_dict = dict(zip(self.columns, updated_collection_data))
         return CollectionModel(**updated_collection_dict)
 
-    def delete(self, status: CollectionStatus, collection_id: str) -> None:
+    def delete(
+        self, collection_id: str, permanently: bool = False, status: CollectionStatus = None
+    ) -> None:
         cursor = get_cursor()
+
+        if permanently:
+            query = f"DELETE FROM {CollectionModel.Meta.db_name} WHERE id = %s"
+            params = (collection_id,)
+
+        else:
+            query = f"UPDATE {CollectionModel.Meta.db_name} SET status = %s, updated_at = CURRENT_TIMESTAMP WHERE id = %s"
+            params = (status, collection_id)
+
         cursor.execute(
-            f"UPDATE {CollectionModel.Meta.db_name} SET status = %s, updated_at = CURRENT_TIMESTAMP WHERE id = %s",
-            (
-                status,
-                collection_id,
-            ),
+            query,
+            params,
         )
         DATABASE.commit()
         return

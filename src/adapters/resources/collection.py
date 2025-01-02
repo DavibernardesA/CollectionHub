@@ -11,6 +11,7 @@ from src.adapters.resources.utils import (
 from src.application.collections.create import Create
 from src.application.collections.custom_attributes import CustomAtributes
 from src.application.collections.delete import Delete
+from src.application.collections.delete_permanently import DeletePermanently
 from src.application.collections.detail import Detail
 from src.application.collections.index import Index
 from src.application.exceptions.collectionhub_exception import CollectionHubException
@@ -108,6 +109,25 @@ class CollectionResource(Resource):
                 lock_repository=LockRepository(),
             ).handler(collection_id=collection_id, body={})
             return (collection_delete, HTTPStatus.OK)
+        except ValidationError as error:
+            return (
+                pydantic_errors_to_request_error(error.errors()),
+                HTTPStatus.UNPROCESSABLE_ENTITY,
+            )
+        except CollectionHubException as error:
+            return (
+                error.to_dict(),
+                HTTPStatus.UNPROCESSABLE_ENTITY,
+            )
+
+    @classmethod
+    @collection.delete("/collections/<string:collection_id>/delete-permanently")
+    def delete_permanently(collection_id):
+        try:
+            collection_delete_permanently = DeletePermanently(
+                collection_repository=CollectionRepository()
+            ).handler(collection_id=collection_id)
+            return (collection_delete_permanently, HTTPStatus.OK)
         except ValidationError as error:
             return (
                 pydantic_errors_to_request_error(error.errors()),

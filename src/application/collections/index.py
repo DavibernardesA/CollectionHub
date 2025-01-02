@@ -13,7 +13,7 @@ class Index:
 
     def handler(self, query_params: dict) -> list[CollectionModel]:
 
-        status = query_params.get("status", CollectionStatus.DELETED)[0]
+        status = query_params.get("status", [None])[0]
 
         collections = self.collection_repository.find_all(status)
 
