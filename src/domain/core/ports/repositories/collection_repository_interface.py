@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from src.domain.core.models.collection import CollectionModel
 from src.domain.core.models.value_objects.collection_status import CollectionStatus
 
+
 class CollectionRepositoryInterface(ABC):
     def __init__(self) -> None:
         super().__init__()

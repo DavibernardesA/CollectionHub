@@ -45,8 +45,6 @@ class CollectionRepository(CollectionRepositoryInterface):
             ]
         return []
 
-
-
     def find_by_id(self, id: str) -> CollectionModel | None:
         cursor = get_cursor()
         cursor.execute(
