@@ -1,7 +1,6 @@
 from src.adapters.middlewares import get_user_by_request
 from src.application.utils.paginator import Paginator
 from src.domain.core.models.collection import CollectionModel
-from src.domain.core.models.value_objects.collection_status import CollectionStatus
 from src.domain.core.ports.repositories.collection_repository_interface import (
     CollectionRepositoryInterface,
 )

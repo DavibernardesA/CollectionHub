@@ -33,6 +33,9 @@ class CollectionRepositoryInterface(ABC):
 
     @abstractmethod
     def delete(
-        self, collection_id: str, permanently: bool = False, status: CollectionStatus = None
+        self,
+        collection_id: str,
+        permanently: bool = False,
+        status: CollectionStatus = None,
     ) -> None:
         pass

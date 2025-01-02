@@ -25,7 +25,7 @@ class CollectionRepository(CollectionRepositoryInterface):
             "deleted_at",
             "errors",
         ]
-    
+
     def find_all(self, status: CollectionStatus = None) -> list[CollectionModel]:
         cursor = get_cursor()
 
@@ -37,7 +37,7 @@ class CollectionRepository(CollectionRepositoryInterface):
         elif status and status != CollectionStatus.DELETED:
             query += " where status = %s"
             cursor.execute(query, (status,))
-        
+
         if not status:
             query += " where status != %s"
             cursor.execute(query, (CollectionStatus.DELETED,))
@@ -136,7 +136,10 @@ class CollectionRepository(CollectionRepositoryInterface):
         return CollectionModel(**updated_collection_dict)
 
     def delete(
-        self, collection_id: str, permanently: bool = False, status: CollectionStatus = None
+        self,
+        collection_id: str,
+        permanently: bool = False,
+        status: CollectionStatus = None,
     ) -> None:
         cursor = get_cursor()
 
