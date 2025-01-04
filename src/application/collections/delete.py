@@ -29,7 +29,7 @@ class Delete:
 
         jwt_data = get_user_by_request.exec()
 
-        if not jwt_data.has_permission:
+        if not jwt_data.id != collection.created_by:
             raise Unauthorized()
 
         if not collection.can_delete:
