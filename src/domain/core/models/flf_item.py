@@ -2,6 +2,7 @@ from pydantic import BaseModel, Field, ValidationInfo, field_validator
 
 from src.domain.core.models.value_objects.flf import FLFType
 
+
 class FLFItem(BaseModel):
     item_id: str = Field(..., description="Item ID")
     action: FLFType

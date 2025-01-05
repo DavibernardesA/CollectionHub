@@ -1,6 +1,4 @@
-from src.application.exceptions.flf.flf_exception import (
-    FLFException
-)
+from src.application.exceptions.flf.flf_exception import FLFException
 
 
 class FLFActionWasMade(FLFException):

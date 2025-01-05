@@ -13,14 +13,16 @@ from src.application.collections.custom_attributes import CustomAtributes
 from src.application.collections.delete import Delete
 from src.application.collections.delete_permanently import DeletePermanently
 from src.application.collections.detail import Detail
-from src.application.collections.index import Index
 from src.application.collections.flf import FLF
+from src.application.collections.index import Index
 from src.application.collections.unflf import UnFLF
 from src.application.exceptions.collectionhub_exception import CollectionHubException
 from src.domain.core.repositories.collection_repository import CollectionRepository
+from src.domain.core.repositories.flf_collection_repository import (
+    FLFCollectionRepository,
+)
 from src.domain.core.repositories.lock_repository import LockRepository
 from src.domain.core.repositories.user_repository import UserRepository
-from src.domain.core.repositories.flf_collection_repository import FLFCollectionRepository
 
 collection = Blueprint("collection", __name__)
 
@@ -148,11 +150,11 @@ class CollectionResource(Resource):
         try:
             collection_flf = FLF(
                 collection_repository=CollectionRepository(),
-                flf_collection_repository=FLFCollectionRepository()
+                flf_collection_repository=FLFCollectionRepository(),
             ).handler(
                 collection_id=collection_id,
                 query_params=get_query_params(request.url),
-                body={}
+                body={},
             )
             return (collection_flf, HTTPStatus.OK)
         except ValidationError as error:
@@ -165,18 +167,18 @@ class CollectionResource(Resource):
                 error.to_dict(),
                 HTTPStatus.UNPROCESSABLE_ENTITY,
             )
-        
+
     @classmethod
     @collection.delete("/collections/<string:collection_id>/flf")
     def unflf(collection_id):
         try:
             collection_flf_delete = UnFLF(
                 collection_repository=CollectionRepository(),
-                flf_collection_repository=FLFCollectionRepository()
+                flf_collection_repository=FLFCollectionRepository(),
             ).handler(
                 collection_id=collection_id,
                 query_params=get_query_params(request.url),
-                body={}
+                body={},
             )
             return (collection_flf_delete, HTTPStatus.OK)
         except ValidationError as error:

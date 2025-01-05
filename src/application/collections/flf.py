@@ -2,18 +2,27 @@ from src.adapters.middlewares import get_user_by_request
 from src.application.exceptions.collections.collection_must_exists_exception import (
     CollectionMustExists,
 )
+from src.application.exceptions.flf.flf_action_already_was_made_exception import (
+    FLFActionWasMade,
+)
+from src.application.exceptions.invalid_credentials_exception import InvalidCredentials
 from src.application.exceptions.unauthorized_exception import Unauthorized
 from src.domain.core.models.value_objects.collection_status import CollectionStatus
+from src.domain.core.models.value_objects.flf import FLFType
 from src.domain.core.ports.repositories.collection_repository_interface import (
     CollectionRepositoryInterface,
 )
-from src.domain.core.models.value_objects.flf import FLFType
-from src.application.exceptions.invalid_credentials_exception import InvalidCredentials
-from src.domain.core.ports.repositories.flf_collection_repository_interface import FLFColllectionRepositoryInterface
-from src.application.exceptions.flf.flf_action_already_was_made_exception import FLFActionWasMade
+from src.domain.core.ports.repositories.flf_collection_repository_interface import (
+    FLFColllectionRepositoryInterface,
+)
+
 
 class FLF:
-    def __init__(self, collection_repository: CollectionRepositoryInterface, flf_collection_repository: FLFColllectionRepositoryInterface) -> None:
+    def __init__(
+        self,
+        collection_repository: CollectionRepositoryInterface,
+        flf_collection_repository: FLFColllectionRepositoryInterface,
+    ) -> None:
         self.collection_repository = collection_repository
         self.flf_collection_repository = flf_collection_repository
 
@@ -34,8 +43,12 @@ class FLF:
         if self.flf_collection_repository.find_by_id_and_action(jwt_data.id, action):
             raise FLFActionWasMade()
 
-        flf = self.flf_collection_repository.create_action(account_id=jwt_data.id, action=action, collection_id=collection.id)
+        flf = self.flf_collection_repository.create_action(
+            account_id=jwt_data.id, action=action, collection_id=collection.id
+        )
 
-        self.collection_repository.recive_action(collection_id=collection.id, action=action, negative=False)
+        self.collection_repository.recive_action(
+            collection_id=collection.id, action=action, negative=False
+        )
 
         return flf.model_dump()

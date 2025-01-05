@@ -1,14 +1,13 @@
-from src.domain.core.ports.repositories.flf_collection_repository_interface import FLFColllectionRepositoryInterface
 from src.db import DATABASE, get_cursor
 from src.domain.core.models.flf_collection import FLFCollection
+from src.domain.core.ports.repositories.flf_collection_repository_interface import (
+    FLFColllectionRepositoryInterface,
+)
+
 
 class FLFCollectionRepository(FLFColllectionRepositoryInterface):
     def __init__(self):
-        self.columns = [
-            "account_id",
-            "action",
-            "collection_id"
-        ]
+        self.columns = ["account_id", "action", "collection_id"]
 
     def find_by_id_and_action(self, account_id, action):
         cursor = get_cursor()
@@ -17,19 +16,16 @@ class FLFCollectionRepository(FLFColllectionRepositoryInterface):
 
         params = (account_id, action)
 
-        cursor.execute(
-            query,
-            params
-        )
+        cursor.execute(query, params)
 
         action_data = cursor.fetchone()
         if not action_data:
             return None
-        
+
         action_dict = dict(zip(self.columns, action_data))
 
         return FLFCollection(**action_dict)
-    
+
     def create_action(self, account_id, action, collection_id):
         cursor = get_cursor()
 
@@ -46,7 +42,7 @@ class FLFCollectionRepository(FLFColllectionRepositoryInterface):
         action_dict = dict(zip(self.columns, created_action))
 
         return FLFCollection(**action_dict)
-    
+
     def delete(self, account_id, action):
         cursor = get_cursor()
 

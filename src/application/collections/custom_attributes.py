@@ -1,16 +1,16 @@
+from src.adapters.middlewares import get_user_by_request
 from src.application.exceptions.collections.collection_must_be_draft_or_incomplete_exception import (
     CollectionMustBeDraftOrIncomplete,
 )
 from src.application.exceptions.collections.collection_must_exists_exception import (
     CollectionMustExists,
 )
+from src.application.exceptions.unauthorized_exception import Unauthorized
 from src.domain.core.models.dtos.custom_attribute import CustomAttributesDTO
 from src.domain.core.models.value_objects.collection_status import CollectionStatus
 from src.domain.core.ports.repositories.collection_repository_interface import (
     CollectionRepositoryInterface,
 )
-from src.adapters.middlewares import get_user_by_request
-from src.application.exceptions.unauthorized_exception import Unauthorized
 
 
 class CustomAtributes:
@@ -27,7 +27,7 @@ class CustomAtributes:
         # TODO - Implementar a verificacao de se nao existem itens na colecao
         if not collection.can_add_attributes:
             raise CollectionMustBeDraftOrIncomplete()
-        
+
         jwt_data = get_user_by_request.exec()
 
         if jwt_data.id != collection.id and jwt_data.is_admin():

@@ -3,10 +3,10 @@ import json
 from src.db import DATABASE, get_cursor
 from src.domain.core.models.collection import CollectionModel
 from src.domain.core.models.value_objects.collection_status import CollectionStatus
+from src.domain.core.models.value_objects.flf import FLFType
 from src.domain.core.ports.repositories.collection_repository_interface import (
     CollectionRepositoryInterface,
 )
-from src.domain.core.models.value_objects.flf import FLFType
 
 
 class CollectionRepository(CollectionRepositoryInterface):
@@ -135,8 +135,10 @@ class CollectionRepository(CollectionRepositoryInterface):
 
         updated_collection_dict = dict(zip(self.columns, updated_collection_data))
         return CollectionModel(**updated_collection_dict)
-    
-    def recive_action(self, collection_id: str, action: FLFType, negative: bool) -> CollectionModel | None:
+
+    def recive_action(
+        self, collection_id: str, action: FLFType, negative: bool
+    ) -> CollectionModel | None:
         cursor = get_cursor()
 
         field_map = {

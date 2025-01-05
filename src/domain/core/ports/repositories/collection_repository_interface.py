@@ -33,7 +33,9 @@ class CollectionRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    def recive_action(self, action: FLFType, collection_id: str, negative: bool) -> CollectionModel | None:
+    def recive_action(
+        self, action: FLFType, collection_id: str, negative: bool
+    ) -> CollectionModel | None:
         pass
 
     @abstractmethod
