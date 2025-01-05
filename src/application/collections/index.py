@@ -18,7 +18,7 @@ class Index:
 
         jwt_data = get_user_by_request.exec()
 
-        if not jwt_data.is_admin:
+        if not jwt_data.is_admin():
             collections = [
                 collection
                 for collection in collections

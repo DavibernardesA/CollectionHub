@@ -6,6 +6,7 @@ from src.domain.core.models.value_objects.collection_status import CollectionSta
 from src.domain.core.ports.repositories.collection_repository_interface import (
     CollectionRepositoryInterface,
 )
+from src.domain.core.models.value_objects.flf import FLFType
 
 
 class CollectionRepository(CollectionRepositoryInterface):
@@ -127,6 +128,40 @@ class CollectionRepository(CollectionRepositoryInterface):
         )
 
         updated_collection_data = cursor.fetchone()
+        if not updated_collection_data:
+            return None
+
+        DATABASE.commit()
+
+        updated_collection_dict = dict(zip(self.columns, updated_collection_data))
+        return CollectionModel(**updated_collection_dict)
+    
+    def recive_action(self, collection_id: str, action: FLFType, negative: bool) -> CollectionModel | None:
+        cursor = get_cursor()
+
+        field_map = {
+            FLFType.LIKE: "likes",
+            FLFType.FAVORITE: "favorites",
+            FLFType.FOLLOW: "followers",
+        }
+
+        field = field_map.get(action)
+        if not field:
+            raise ValueError(f"Ação inválida: {action}")
+
+        operation = "-" if negative else "+"
+
+        query = f"""
+            UPDATE {CollectionModel.Meta.db_name}
+            SET {field} = {field} {operation} 1,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE id = %s
+            RETURNING *
+        """
+
+        cursor.execute(query, (collection_id,))
+        updated_collection_data = cursor.fetchone()
+
         if not updated_collection_data:
             return None
 

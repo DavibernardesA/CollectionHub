@@ -31,7 +31,7 @@ class Update:
             dto.account_type = UserType.USER
 
         # Administradores nao podem se rabaixar
-        if user.is_admin and not dto.is_admin:
+        if user.is_admin() and not dto.is_admin():
             raise Unauthorized()
 
         user_with_same_email = self.user_repository.find_by_email(dto.email)

@@ -34,3 +34,29 @@ CREATE TABLE locks (
     id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),      -- ID único para identificar cada bloqueio
     collection_id     UUID NOT NULL                                    -- ID da coleção bloqueada
 );
+
+-- Criar tabela `flf_collections`
+CREATE TABLE flf_collections (
+    account_id        TEXT NOT NULL,                                    -- ID do usuário que realizou uma ação
+    action            TEXT NOT NULL,                                    -- Ação do usuário
+    collection_id     TEXT NOT NULL                                    -- ID da coleção que recebeu a ação
+);
+
+-- Criar tabela `flf_items`
+CREATE TABLE flf_items (
+    account_id        TEXT NOT NULL,                                    -- ID do usuário que realizou uma ação
+    action            TEXT NOT NULL,                                    -- Ação do usuário
+    item_id           TEXT NOT NULL                                    -- ID do item que recebeu a ação
+);
+
+-- Criar tabela `items`
+CREATE TABLE items (
+    id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),      -- ID único para identificar cada item
+    collection_id     UUID NOT NULL,                                   -- ID da coleção a qual o item pertence
+    attributes        JSONB NOT NULL,                                  -- Atributos do item, armazenados em formato JSON
+    likes             INTEGER NOT NULL DEFAULT 0,                      -- Número de curtidas
+    views             INTEGER NOT NULL DEFAULT 0,                      -- Número de visualizações
+    visibility        BOOLEAN NOT NULL DEFAULT true,                   -- Visibilidade do item
+    created_at        TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,    -- Data de criação
+    updated_at        TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL     -- Data de última atualização
+);

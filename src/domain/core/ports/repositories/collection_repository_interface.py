@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 from src.domain.core.models.collection import CollectionModel
 from src.domain.core.models.value_objects.collection_status import CollectionStatus
+from src.domain.core.models.value_objects.flf import FLFType
 
 
 class CollectionRepositoryInterface(ABC):
@@ -29,6 +30,10 @@ class CollectionRepositoryInterface(ABC):
 
     @abstractmethod
     def update_custom_attributes(self, id: str, body: dict) -> CollectionModel | None:
+        pass
+
+    @abstractmethod
+    def recive_action(self, action: FLFType, collection_id: str, negative: bool) -> CollectionModel | None:
         pass
 
     @abstractmethod
