@@ -37,15 +37,15 @@ CREATE TABLE locks (
 
 -- Criar tabela `flf_collections`
 CREATE TABLE flf_collections (
-    account_id        TEXT NOT NULL,                                    -- ID do usuário que realizou uma ação
-    action            TEXT NOT NULL,                                    -- Ação do usuário
+    account_id        TEXT NOT NULL,                                   -- ID do usuário que realizou uma ação
+    action            TEXT NOT NULL,                                   -- Ação do usuário
     collection_id     TEXT NOT NULL                                    -- ID da coleção que recebeu a ação
 );
 
 -- Criar tabela `flf_items`
 CREATE TABLE flf_items (
-    account_id        TEXT NOT NULL,                                    -- ID do usuário que realizou uma ação
-    action            TEXT NOT NULL,                                    -- Ação do usuário
+    account_id        TEXT NOT NULL,                                   -- ID do usuário que realizou uma ação
+    action            TEXT NOT NULL,                                   -- Ação do usuário
     item_id           TEXT NOT NULL                                    -- ID do item que recebeu a ação
 );
 
